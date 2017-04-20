@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>倒计时器</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    #count {
+      width: 300px;
+      text-align: center;
+      background: #e4e4e4;
+      margin: 10px auto;
+      padding: 20px 0;
+      border-radius: 10px
+    }
+
+    .wrap {
+      width: 150px;
+      margin: 20px auto
+    }
+
+    input {
+      border: 0;
+      width: 70px;
+      height: 30px;
+      cursor: pointer;
+      background-color: #00bfff;
+    }
+
+    span {
+      color: #000;
+      width: 80px;
+      line-height: 2;
+      background: #fbfbfb;
+      border: 2px solid #b4b4b4;
+      margin: 0 10px;
+      padding: 0 10px;
+    }
+  </style>
+
+</head>
+<body>
+<div id="count">
+  <span>03</span>分钟<span>00</span>秒
+  <div class="wrap">
+    <input type="button" value="开始"/>
+    <input type="button" value="重置"/></div>
+</div>
+<script>
+  window.onload = function () {
+    var gDiv = document.getElementById("count"),
+      gSpan = gDiv.getElementsByTagName("span"),
+      gInput = gDiv.getElementsByTagName("input"),
+      timer = null;
+    num1 = 0,
+      num = 0;
+
+    gInput[0].onclick = function () {
+      this.value == "开始" ? (timer = setInterval(t, 1000) , this.value = "暂停") : (clearInterval(timer) , this.value = "开始")
+    }
+    gInput[1].onclick = function () {
+      render()
+    }
+    function format(time) {
+      return time.toString().replace(/^(\d)$/, "0$1")
+    }
+
+    function render() {
+      gInput[0].value = "开始";
+      gSpan[0].innerHTML = "03";
+      gSpan[1].innerHTML = "00";
+      clearInterval(timer);
+    }
+
+    function t() {
+      num = parseInt(gSpan[0].innerHTML) * 60 + parseInt(gSpan[1].innerHTML);
+      num--;
+      num1 = num;
+      gSpan[0].innerHTML = format(parseInt(num1 / 60));
+      num1 %= 60;
+      gSpan[1].innerHTML = format(parseInt(num1));
+      if (num <= 0) {
+        render()
+      }
+    }
+  }
+</script>
+</body>
+</html>
